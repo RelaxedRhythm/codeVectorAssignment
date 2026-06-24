@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products Browser</title>
+  <link rel="stylesheet" href="/index.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Products Browser</h1>
+    <p>Browse newest products, filter by category, and page through results.</p>
+    <div class="toolbar">
+      <label>
+        Category:
+        <select id="category-select">
+          <option value="">All</option>
+          <option value="electronics">electronics</option>
+          <option value="fashion">fashion</option>
+          <option value="books">books</option>
+          <option value="sports">sports</option>
+          <option value="home">home</option>
+        </select>
+      </label>
+      <label>
+        Page size:
+        <select id="limit-select">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+        </select>
+      </label>
+      <button id="load-button">Load products</button>
+      <button id="next-button" disabled>Next page</button>
+    </div>
+    <div id="product-list" class="product-list"></div>
+    <div id="status" class="empty"></div>
+  </div>
+  <script src="/script.js"></script>
+</body>
+</html>
