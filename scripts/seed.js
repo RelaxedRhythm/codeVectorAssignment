@@ -33,37 +33,23 @@ async function seed() {
 
   console.log("Starting seed...");
 
-  for (let start = 0; start < total; start += batchSize) {
-    const params = [];
-    const rows = [];
-
-    for (let i = 0; i < batchSize; i += 1) {
-      const name = `Product ${start + i + 1}`;
-      const category =
-        categories[Math.floor(Math.random() * categories.length)];
-      const price = (Math.random() * 1000 + 1).toFixed(2);
-      const createdAt = new Date(
-        Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 90,
-      );
-      const updatedAt = createdAt;
-
-      params.push(name, category, price, createdAt, updatedAt);
-      const offset = i * 5;
-      rows.push(
-        `($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4}, $${offset + 5})`,
-      );
-    }
-
-    await pool.query(
-      `INSERT INTO products (name, category, price, created_at, updated_at) VALUES ${rows.join(",")}`,
-      params,
-    );
-
-    console.log(`Inserted ${Math.min(start + batchSize, total)} products`);
-  }
-
-  await pool.end();
-  console.log("Seed complete");
+  await pool.query(`
+  INSERT INTO products (
+    name,
+    category,
+    price,
+    created_at,
+    updated_at
+  )
+  SELECT
+      'Product ' || gs,
+      (ARRAY['electronics','fashion','books','sports','home'])
+          [floor(random() * 5 + 1)],
+      round((random() * 1000 + 1)::numeric, 2),
+      NOW() - (random() * interval '90 days'),
+      NOW() - (random() * interval '90 days')
+  FROM generate_series(1, 200000) gs
+`);
 }
 
 seed().catch((err) => {
