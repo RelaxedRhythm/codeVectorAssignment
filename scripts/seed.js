@@ -5,8 +5,6 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const categories = ["electronics", "fashion", "books", "sports", "home"];
-
 async function seed() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS products (
@@ -28,8 +26,6 @@ async function seed() {
         CREATE INDEX IF NOT EXISTS idx_products_category_created_id
         ON products (category, created_at DESC, id DESC);
     `);
-  const batchSize = 5000;
-  const total = 200000;
 
   console.log("Starting seed...");
 
